@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flashbooth-loading {
+  align-items: center;
+  background: #07060c;
+  color: #e9d5ff;
+  display: flex;
+  flex-direction: column;
+  font-size: .75rem;
+  font-weight: 700;
+  gap: 2rem;
+  inset: 0;
+  justify-content: center;
+  letter-spacing: .16em;
+  position: fixed;
+  text-transform: uppercase;
+  z-index: 300;
+}
+
+/* Diseño de carga basado en el recurso indicado por el usuario. */
+.loader {
+  animation: flashbooth-loader-rotate 1s linear infinite;
+  border-radius: 10em;
+  box-shadow: 0 20px 40px #ff4646, 0 -20px 40px #8949ff, 20px 0 40px #ff07fb, -20px 0 40px #ff07fb;
+  height: 100px;
+  width: 100px;
+}
+
+@keyframes flashbooth-loader-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader { animation: none; }
+}
+
+.package-flip-shell { min-height: 530px; perspective: 1000px; transition: opacity 360ms ease, transform 360ms ease; }
+.package-flip-card { height: 100%; min-height: 530px; position: relative; transform-style: preserve-3d; transition: transform 650ms ease; width: 100%; }
+.package-flip-card.is-flipped { transform: rotateY(180deg); }
+.package-flip-face { backface-visibility: hidden; background: linear-gradient(145deg, rgba(26, 19, 43, .98), rgba(12, 9, 22, .98)); border: 1px solid rgba(255, 255, 255, .1); border-radius: 1.25rem; box-shadow: 0 14px 32px rgba(0, 0, 0, .28); display: flex; flex-direction: column; height: 100%; inset: 0; padding: 1.25rem; position: absolute; width: 100%; }
+.package-flip-back { background: linear-gradient(145deg, rgba(42, 25, 72, .98), rgba(15, 10, 29, .98)); transform: rotateY(180deg); }
+.package-flip-recommended .package-flip-face { border-color: rgba(168, 85, 247, .88); box-shadow: 0 16px 38px rgba(109, 40, 217, .25); }
+.package-flip-shell:hover { transform: translateY(-4px); }
+.package-flip-outline-btn, .package-flip-primary-btn { align-items: center; border-radius: 999px; display: inline-flex; font-size: .875rem; font-weight: 700; justify-content: center; min-height: 44px; padding: .7rem 1rem; transition: background 220ms ease, border-color 220ms ease, transform 220ms ease; width: 100%; }
+.package-flip-outline-btn { background: rgba(255, 255, 255, .03); border: 1px solid rgba(196, 181, 253, .55); color: #fff; }
+.package-flip-primary-btn { background: linear-gradient(90deg, #7c3aed, #a855f7); border: 1px solid transparent; color: #fff; }
+.package-flip-outline-btn:hover, .package-flip-primary-btn:hover { transform: translateY(-1px); }
+.package-flip-outline-btn:focus-visible, .package-flip-primary-btn:focus-visible { outline: 3px solid #c4b5fd; outline-offset: 3px; }
+.packages-pending .package-flip-shell { opacity: 0; transform: translateY(16px); }
+.packages-revealed .package-flip-shell { opacity: 1; transform: translateY(0); }
+.package-comparison th, .package-comparison td { border-bottom: 1px solid rgba(255, 255, 255, .09); padding: .85rem 1rem; vertical-align: top; }
+.package-comparison th { color: #f5f3ff; font-weight: 600; }
+.package-comparison td { color: #d1d5db; }
+#cotizador { scroll-margin-top: 6rem; }
+@media (hover: none) { .package-flip-shell:hover { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .package-flip-card, .package-flip-shell, .package-flip-outline-btn, .package-flip-primary-btn { transition: none !important; } .package-flip-card.is-flipped, .package-flip-back { transform: none; } .package-flip-front[aria-hidden="true"] { display: none; } .package-flip-back[aria-hidden="true"] { display: none; } }
+
+/* Halo exclusivo de la sección de servicios; se actualiza con variables CSS. */
+.services-with-glow {
+  position: relative;
+}
+
+.services-glow {
+  background: radial-gradient(300px circle at var(--service-glow-x, 50%) var(--service-glow-y, 50%), rgba(167, 139, 250, 0.18), rgba(124, 58, 237, 0.08) 34%, transparent 70%);
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 240ms ease;
+  z-index: 0;
+}
+
+.services-glow-active .services-glow {
+  opacity: 1;
+}
+
+.services-content {
+  position: relative;
+  z-index: 1;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .services-glow {
+    display: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #07060c;
+  color: #e5e7eb;
+  min-width: 320px;
+  overflow-x: hidden;
+}
+
+/* Shared visual language from the Stitch reference. */
+::selection { background: #7c3aed; color: #fff; }
+
+:focus-visible {
+  outline: 2px solid #c084fc;
+  outline-offset: 3px;
+}
+
+.hero-shell { background-position: 68% center !important; }
+
+@media (min-width: 640px) {
+  .hero-shell { background-position: right center !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; }
+}
+
+/* Marquee de tipos de evento (usado en Marquee.jsx) */
+@keyframes tickerMarqueeLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: tickerMarqueeLeft 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Vertical photo-strip showcase, adapted from the Stitch gallery reference. */
+@keyframes photoStripUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+@keyframes photoStripDown {
+  from { transform: translateY(-50%); }
+  to { transform: translateY(0); }
+}
+
+.marquee-up { animation: photoStripUp 20s linear infinite; }
+.marquee-down { animation: photoStripDown 24s linear infinite; }
+.photo-strip-viewport:hover .marquee-up,
+.photo-strip-viewport:hover .marquee-down { animation-play-state: paused; }
+
+/* Animated package frame inspired by the uiverse cards in the Stitch source. */
+.uiverse-outer {
+  position: relative;
+  overflow: hidden;
+  padding: 1px;
+  border-radius: 1.5rem;
+  background: radial-gradient(circle at var(--dot-x, 50%) var(--dot-y, 0%), #6366f1 0, #7c3aed 6%, rgba(124, 58, 237, .34) 20%, #131122 48%, #0e0c18 75%);
+  box-shadow: 0 20px 45px -24px rgba(124, 58, 237, .75);
+}
+
+.uiverse-card {
+  position: relative;
+  z-index: 1;
+  border-radius: calc(1.5rem - 1px);
+  background: radial-gradient(circle 300px at 0% 0%, rgba(124, 58, 237, .22) 0%, #131122 42%, #0e0c18 100%);
+}
+
+.uiverse-dot {
+  position: absolute;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 18px 7px rgba(124, 58, 237, .9);
+  animation: moveDot 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes moveDot {
+  0%, 100% { top: -3px; left: 7%; }
+  25% { top: -3px; left: 92%; }
+  50% { top: calc(100% - 4px); left: 92%; }
+  75% { top: calc(100% - 4px); left: 7%; }
+}
+
+.uiverse-outer.is-premium {
+  background: radial-gradient(circle at var(--dot-x, 50%) var(--dot-y, 0%), #6366f1 0, #7c3aed 7%, rgba(124, 58, 237, .58) 23%, #131122 55%, #0e0c18 100%);
+  box-shadow: 0 0 50px -14px rgba(124, 58, 237, .95), inset 0 0 28px rgba(124, 58, 237, .22);
+}
+
+.uiverse-outer.is-premium .uiverse-card {
+  background: radial-gradient(circle 340px at 0% 0%, rgba(124, 58, 237, .36) 0%, #131122 46%, #0e0c18 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-up, .marquee-down, .uiverse-dot { animation: none; }
+}
+
+/* Slider antes/después (usado en BeforeAfterSlider.jsx) */
+.compare-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Carrusel de tiras impresas: muestra la imagen completa, sin recortes. */
+.strip-carousel { margin: 0 auto; max-width: 920px; overflow: hidden; }
+.strip-carousel-stage { align-items: center; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.7rem, 3vw, 2.25rem); justify-items: center; min-height: clamp(360px, 53vh, 600px); touch-action: pan-y; }
+.strip-carousel-card { align-items: center; background: transparent; border: 1px solid transparent; border-radius: 1rem; display: inline-flex; flex-direction: column; justify-content: center; max-height: min(52vh, 580px); padding: .35rem; position: relative; transition: border-color 400ms ease, box-shadow 400ms ease, transform 400ms ease, opacity 400ms ease; }
+.strip-carousel-card img { display: block; height: auto; max-height: min(48vh, 540px); max-width: 100%; object-fit: contain; width: auto; }
+.strip-carousel-left, .strip-carousel-right { opacity: .72; transform: scale(.84); }
+.strip-carousel-center { border-color: rgba(168, 85, 247, .42); box-shadow: 0 14px 35px rgba(88, 28, 135, .28); transform: scale(1.04); z-index: 1; }
+.strip-carousel-card:hover { border-color: rgba(196, 181, 253, .95); box-shadow: 0 18px 36px rgba(124, 58, 237, .35); opacity: 1; transform: translateY(-6px) scale(1.04); }
+.strip-carousel-left.strip-carousel-previous, .strip-carousel-right.strip-carousel-next { animation: stripSlideIn 400ms ease both; }
+.strip-zoom-label { align-items: center; background: rgba(9, 7, 16, .9); border: 1px solid rgba(196, 181, 253, .45); border-radius: 999px; bottom: .75rem; color: #f5f3ff; display: inline-flex; font-size: .7rem; font-weight: 700; gap: .35rem; left: 50%; opacity: 0; padding: .4rem .6rem; pointer-events: none; position: absolute; transform: translate(-50%, 4px); transition: opacity 180ms ease, transform 180ms ease; white-space: nowrap; }
+.strip-carousel-card:hover .strip-zoom-label, .strip-carousel-card:focus-visible .strip-zoom-label { opacity: 1; transform: translate(-50%, 0); }
+.strip-carousel-controls { align-items: center; display: flex; gap: 1rem; justify-content: center; margin-top: .35rem; }
+.strip-carousel-arrow { align-items: center; background: rgba(124, 58, 237, .15); border: 1px solid rgba(196, 181, 253, .45); border-radius: 999px; color: #f5f3ff; display: inline-flex; height: 2.75rem; justify-content: center; transition: background 180ms ease, transform 180ms ease; width: 2.75rem; }
+.strip-carousel-arrow:hover { background: rgba(124, 58, 237, .38); transform: translateY(-2px); }
+.strip-carousel-arrow:focus-visible, .strip-carousel-indicators button:focus-visible { outline: 3px solid #c4b5fd; outline-offset: 3px; }
+.strip-carousel-indicators { display: flex; gap: .45rem; }
+.strip-carousel-indicators button { background: rgba(196, 181, 253, .35); border: 0; border-radius: 999px; height: .55rem; padding: 0; transition: background 180ms ease, transform 180ms ease, width 180ms ease; width: .55rem; }
+.strip-carousel-indicators button.is-active { background: #a855f7; transform: scale(1.12); width: 1.5rem; }
+@keyframes stripSlideIn { from { opacity: .25; transform: translateX(20px) scale(.8); } to { opacity: .72; transform: scale(.84); } }
+
+@media (max-width: 639px) {
+  .strip-carousel { max-width: 100%; }
+  .strip-carousel-stage { display: flex; justify-content: center; min-height: min(67vh, 560px); overflow: hidden; }
+  .strip-carousel-left, .strip-carousel-right { display: none; }
+  .strip-carousel-center { max-height: min(62vh, 530px); transform: none; }
+  .strip-carousel-card img { max-height: min(58vh, 500px); }
+  .strip-carousel-card:hover { transform: none; }
+  .strip-zoom-label { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip-carousel-card, .strip-carousel-arrow, .strip-carousel-indicators button, .strip-zoom-label { animation: none !important; transition: none !important; }
+}
