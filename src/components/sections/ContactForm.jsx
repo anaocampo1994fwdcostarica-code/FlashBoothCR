@@ -74,7 +74,7 @@ export default function ContactForm() {
               name="name"
               required
               maxLength="100"
-              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none text-sm text-white placeholder-gray-500 transition"
+              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-hidden text-sm text-white placeholder-gray-500 transition"
               placeholder="Tu nombre"
             />
           </div>
@@ -86,7 +86,7 @@ export default function ContactForm() {
               name="email"
               required
               maxLength="254"
-              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none text-sm text-white placeholder-gray-500 transition"
+              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-hidden text-sm text-white placeholder-gray-500 transition"
               placeholder="tu@email.com"
             />
           </div>
@@ -97,7 +97,7 @@ export default function ContactForm() {
               type="tel"
               name="phone"
               maxLength="30"
-              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none text-sm text-white placeholder-gray-500 transition"
+              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-hidden text-sm text-white placeholder-gray-500 transition"
               placeholder="+506 8888 8888"
             />
           </div>
@@ -106,7 +106,7 @@ export default function ContactForm() {
             <select
               id="contact-event-type"
               name="event_type"
-              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none text-sm text-white transition appearance-none"
+              className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-hidden text-sm text-white transition appearance-none"
             >
               <option value="Cumpleaños">Cumpleaños</option>
               <option value="Bodas">Bodas</option>
@@ -123,7 +123,7 @@ export default function ContactForm() {
               rows="4"
               required
               maxLength="2000"
-              className="min-h-[120px] w-full resize-y rounded-xl border border-line bg-base px-4 py-3 text-sm text-white placeholder-gray-500 outline-none transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+              className="min-h-[120px] w-full resize-y rounded-xl border border-line bg-base px-4 py-3 text-sm text-white placeholder-gray-500 outline-hidden transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
               placeholder="Cuéntanos sobre tu evento, fecha y número de invitados..."
             ></textarea>
           </div>

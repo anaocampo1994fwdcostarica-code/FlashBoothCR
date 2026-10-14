@@ -34,7 +34,7 @@ export default function VideoModal({ src, onClose, returnFocusRef }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 sm:p-10"
+      className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-xs flex items-center justify-center p-4 sm:p-10"
       onClick={onClose}
       role="presentation"
     >
@@ -45,7 +45,7 @@ export default function VideoModal({ src, onClose, returnFocusRef }) {
           type="button"
           onClick={onClose}
           aria-label="Cerrar video"
-          className="absolute right-0 top-0 z-10 flex h-11 w-11 items-center justify-center rounded-full border-2 border-white/70 bg-[#0b0912]/95 text-white shadow-lg shadow-black/70 transition hover:bg-purple-700 focus:outline-none focus:ring-4 focus:ring-purple-300/80"
+          className="absolute right-0 top-0 z-10 flex h-11 w-11 items-center justify-center rounded-full border-2 border-white/70 bg-[#0b0912]/95 text-white shadow-lg shadow-black/70 transition hover:bg-purple-700 focus:outline-hidden focus:ring-4 focus:ring-purple-300/80"
         >
           <X size={22} aria-hidden="true" />
         </button>

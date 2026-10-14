@@ -24,7 +24,7 @@ export default function Calculator({ selectedPackageId }) {
     if (firstInvalid) { fieldRefs.current[firstInvalid]?.focus(); return }
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
   }
-  const inputClass = 'mt-2 min-h-11 w-full rounded-xl border border-line bg-black/20 px-3 py-2.5 text-white placeholder:text-gray-500 outline-none transition focus:border-purple-300 focus:ring-2 focus:ring-purple-300/30'
+  const inputClass = 'mt-2 min-h-11 w-full rounded-xl border border-line bg-black/20 px-3 py-2.5 text-white placeholder:text-gray-500 outline-hidden transition focus:border-purple-300 focus:ring-2 focus:ring-purple-300/30'
   const errorClass = (field) => errors[field] ? ' border-red-400/80 focus:border-red-300 focus:ring-red-300/30' : ''
   return <section id="cotizador" className="relative border-t border-line/60 bg-base py-16 sm:py-20 lg:py-24"><div className="site-container">
     <div className="mx-auto mb-7 max-w-2xl text-center sm:mb-8"><span className="mb-2 block text-xs font-bold uppercase tracking-widest text-purple-400 sm:text-sm">COTIZADOR</span><h2 className="font-serif text-3xl leading-tight text-white sm:text-5xl">Arma tu <span className="font-normal italic text-purple-200">experiencia.</span></h2><p className="mt-3 text-sm text-gray-300 sm:text-base">Elige tu paquete, ajusta las horas y calcula un estimado para tu evento.</p></div>
