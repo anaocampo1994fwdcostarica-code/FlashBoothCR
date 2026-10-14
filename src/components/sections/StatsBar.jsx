@@ -8,10 +8,10 @@ const STATS = [
 export default function StatsBar() {
   return (
     <section className="py-10 sm:py-12 relative border-b border-line/60 bg-base">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="site-container">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-5">
-          {STATS.map((stat) => (
-            <div
+          {STATS.map((stat, index) => (
+            <div data-reveal style={{ '--reveal-delay': `${index * 70}ms` }}
               key={stat.title}
               className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-panel/80 border border-line/60 hover:border-purple-500/30 transition flex flex-col justify-center shadow-lg shadow-purple-950/20"
             >

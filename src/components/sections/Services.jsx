@@ -11,8 +11,11 @@ const FEATURES = [
 function ServiceModal({ feature, onClose, returnFocusRef }) {
   const dialogRef = useRef(null)
   const closeRef = useRef(null)
+  const restoreFrameRef = useRef(0)
 
   useEffect(() => {
+    cancelAnimationFrame(restoreFrameRef.current)
+    const returnFocusTarget = returnFocusRef.current
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     closeRef.current?.focus()
@@ -30,7 +33,7 @@ function ServiceModal({ feature, onClose, returnFocusRef }) {
     return () => {
       document.body.style.overflow = previousOverflow
       document.removeEventListener('keydown', handleKeyDown)
-      requestAnimationFrame(() => returnFocusRef.current?.focus())
+      restoreFrameRef.current = requestAnimationFrame(() => returnFocusTarget?.focus())
     }
   }, [onClose, returnFocusRef])
 
@@ -77,10 +80,10 @@ export default function Services() {
   return (
     <section id="servicios" ref={sectionRef} className="services-with-glow border-t border-line/60 bg-base py-16 sm:py-20 lg:py-24" onMouseEnter={(event) => { sectionRef.current?.classList.add('services-glow-active'); updateGlow(event) }} onMouseMove={updateGlow} onMouseLeave={() => sectionRef.current?.classList.remove('services-glow-active')}>
       <div ref={glowRef} className="services-glow" aria-hidden="true" />
-      <div className="services-content mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-3xl border border-line-soft bg-panel shadow-2xl shadow-black/30 lg:grid lg:grid-cols-[1.03fr_.97fr]">
+      <div className="services-content site-container">
+        <div data-reveal className="overflow-hidden rounded-3xl border border-line-soft bg-panel shadow-2xl shadow-black/30 lg:grid lg:grid-cols-[1.03fr_.97fr]">
           <div className="relative h-[420px] overflow-hidden sm:h-[520px] lg:h-auto lg:min-h-[760px]">
-            <img src="/images/foto-principal.jpg" alt="Experiencia FlashBooth" className="h-full w-full object-cover" />
+            <img src="/images/foto-principal.jpg" alt="Experiencia FlashBooth" loading="lazy" className="h-full w-full object-cover" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07060c]/90 via-[#07060c]/10 to-transparent" />
             <div className="absolute bottom-7 left-7 sm:bottom-10 sm:left-10"><p className="font-serif text-2xl italic leading-none text-white sm:text-3xl">Momentos<br />que se comparten ♡</p><p className="mt-4 text-[9px] font-semibold tracking-[.28em] text-white/75">FOTOS · EXPERIENCIAS · RECUERDOS</p></div>
           </div>
@@ -93,9 +96,11 @@ export default function Services() {
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:flex-1 lg:auto-rows-fr">
               {FEATURES.map((feature) => {
                 const Icon = feature.icon
-                return <article key={feature.title} className="flex min-h-[190px] flex-col rounded-2xl border border-line-soft bg-card/90 p-4 transition-colors hover:border-purple-500/60 sm:min-h-[224px] sm:p-5">
-                  <div className="flex min-w-0 flex-1 gap-3"><div className="min-w-0 flex-1"><span className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand-indigo text-white shadow-lg shadow-purple-950/50"><Icon size={18} aria-hidden="true" /></span><h3 className="text-sm font-bold text-white">{feature.title}</h3><p className="mt-2 text-xs leading-relaxed text-gray-300">{feature.desc}</p></div><button type="button" onClick={(event) => openFeature(feature, event)} className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-black/40 focus:outline-none focus:ring-2 focus:ring-purple-300 sm:h-24 sm:w-24" aria-label={`Ampliar ${feature.title}`}><img src={feature.image} alt="" className="h-full w-full object-contain" /></button></div>
-                  <button type="button" onClick={(event) => openFeature(feature, event)} className="mt-4 inline-flex w-fit items-center gap-2 rounded-lg border border-purple-300/35 bg-purple-500/10 px-3 py-2 text-xs font-semibold text-purple-100 transition hover:border-purple-300 hover:bg-purple-500/20 focus:outline-none focus:ring-2 focus:ring-purple-300"><Search size={15} aria-hidden="true" />Ver más</button>
+                return <article key={feature.title} data-reveal className="flex min-h-[276px] flex-col rounded-2xl border border-line-soft bg-card/90 p-4 transition-colors hover:border-purple-500/60 sm:min-h-[300px] sm:p-5">
+                  <div className="flex min-w-0 items-center gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand-indigo text-white shadow-lg shadow-purple-950/50"><Icon size={18} aria-hidden="true" /></span><h3 className="min-w-0 text-sm font-bold text-white">{feature.title}</h3></div>
+                  <p className="mt-3 text-xs leading-relaxed text-gray-300">{feature.desc}</p>
+                  <button type="button" onClick={(event) => openFeature(feature, event)} className="mt-4 flex h-28 w-full items-center justify-center overflow-hidden rounded-xl bg-black/40 focus:outline-none focus:ring-2 focus:ring-purple-300 sm:h-32" aria-label={`Ampliar ${feature.title}`}><img src={feature.image} alt="" loading="lazy" className="h-full w-full object-contain" /></button>
+                  <button type="button" onClick={(event) => openFeature(feature, event)} className="mt-auto inline-flex min-h-11 w-fit items-center gap-2 pt-4 text-xs font-semibold text-purple-100 transition hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-300"><Search size={15} aria-hidden="true" />Ver más</button>
                 </article>
               })}
             </div>

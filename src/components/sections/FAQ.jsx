@@ -29,15 +29,17 @@ const FAQS = [
 ]
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState(null)
+  const [openIndex, setOpenIndex] = useState(() => {
+    const match = window.location.hash.match(/^#faq-(\d+)$/)
+    const index = match ? Number(match[1]) : null
+    return index !== null && FAQS[index] ? index : null
+  })
 
   useEffect(() => {
-    const match = window.location.hash.match(/^#faq-(\d+)$/)
-    if (match && FAQS[Number(match[1])]) {
-      setOpenIndex(Number(match[1]))
-      requestAnimationFrame(() => document.getElementById(`faq-${match[1]}`)?.scrollIntoView({ block: 'center' }))
-    }
-  }, [])
+    if (openIndex === null) return undefined
+    const frame = requestAnimationFrame(() => document.getElementById(`faq-${openIndex}`)?.scrollIntoView({ block: 'center' }))
+    return () => cancelAnimationFrame(frame)
+  }, [openIndex])
 
   const toggle = (i) => {
     setOpenIndex(openIndex === i ? null : i)
@@ -45,8 +47,8 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="py-16 sm:py-20 lg:py-24 relative border-t border-line/60 bg-base">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
+      <div className="site-container">
+        <div className="text-center max-w-2xl mx-auto mb-7 sm:mb-8">
           <span className="text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-bold block mb-2">
             FAQ
           </span>
@@ -55,15 +57,15 @@ export default function FAQ() {
           </h2>
         </div>
 
-        <div className="space-y-3 sm:space-y-4">
+        <div className="mx-auto w-full max-w-[760px] space-y-2.5 sm:space-y-3">
           {FAQS.map(({ q, a }, i) => (
             <div id={i === 0 ? 'faq-0' : undefined} key={i} className="rounded-2xl bg-panel/80 border border-line overflow-hidden">
               <button
                 onClick={() => toggle(i)}
                 aria-expanded={openIndex === i}
-                className="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-white/5 transition"
+                className="flex w-full items-center justify-between p-4 text-left transition hover:bg-white/5 sm:p-5"
               >
-                <span className="text-sm sm:text-base font-semibold !text-gray-100 pr-4">{q}</span>
+                <span className="min-w-0 pr-4 text-sm font-semibold !text-gray-100 sm:text-base">{q}</span>
                 <ChevronDown
                   size={18}
                   className={`text-purple-400 shrink-0 transition-transform duration-300 ${
@@ -72,12 +74,14 @@ export default function FAQ() {
                 />
               </button>
               <div
-                className={`transition-all duration-300 ease-in-out ${
-                  openIndex === i ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                } overflow-hidden`}
+                className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                  openIndex === i ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                }`}
               >
-                <div className="px-5 pb-5 text-sm !text-gray-200 leading-relaxed border-t border-line/50 pt-4">
-                  {a}
+                <div className="min-h-0 overflow-hidden">
+                  <div className="border-t border-line/50 px-4 pb-4 pt-4 text-sm leading-relaxed !text-gray-200 sm:px-5 sm:pb-5">
+                    {a}
+                  </div>
                 </div>
               </div>
             </div>
