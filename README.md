@@ -16,14 +16,15 @@ npm test         # pruebas de cálculo de precios y enlaces de WhatsApp
 
 Edita `src/data/packages.js`. Cada paquete tiene `name`, `desc`, `popular` (recomendado), la lista `features` y `prices`: una entrada por duración (`hours`, `label` y `price` en colones, sin puntos). El cotizador usa el precio exacto de la combinación paquete + duración.
 
-Los beneficios comunes están en `INCLUDED_IN_ALL` y la nota de créditos de cortesía en `CREDITS_NOTE`, en el mismo archivo.
+Los beneficios comunes a todos los paquetes están en `INCLUDED_IN_ALL`, en el mismo archivo.
 
 ## Cambiar WhatsApp, redes y correo
 
 Todo está en `src/config/site.js`:
 
-- `WHATSAPP_NUMBER`: con código de país y sin espacios ni guiones (ej. `50687212900`).
-- `WHATSAPP_DISPLAY`: cómo se muestra el número (ej. `8721-2900`).
+- `WHATSAPP_NUMBER`: con código de país y sin espacios ni guiones (ej. `50687812900`).
+- `WHATSAPP_DISPLAY`: cómo se muestra el número (ej. `8781-2900`).
+- `WHATSAPP_INTL_DISPLAY`: el número en formato internacional (ej. `+506 8781-2900`).
 - `INSTAGRAM_URL`, `FACEBOOK_URL`, `TIKTOK_URL`.
 - `CONTACT_EMAIL`.
 

@@ -1,5 +1,5 @@
 import { Camera, Check, Images, PartyPopper, Send, Smartphone } from 'lucide-react'
-import { CREDITS_NOTE, INCLUDED_IN_ALL, PACKAGES, formatCRC } from '../../data/packages'
+import { INCLUDED_IN_ALL, PACKAGES, formatCRC } from '../../data/packages'
 import { waLink } from '../../config/site'
 
 // Íconos para los beneficios incluidos en todos los paquetes (mismo orden que INCLUDED_IN_ALL).
@@ -47,7 +47,6 @@ export default function Pricing({ onCustomize }) {
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">{PACKAGES.map((pkg, index) => <PackageCard key={pkg.id} pkg={pkg} index={index} onCustomize={onCustomize} />)}</div>
 
     <div className="mt-6 space-y-1.5 text-center text-xs leading-relaxed text-gray-400 sm:text-sm">
-      <p>{CREDITS_NOTE}</p>
       <p>¿Tu evento dura más de 2 horas? <a href={waLink('Hola, quisiera cotizar un FlashBooth para un evento de más de 2 horas')} target="_blank" rel="noopener noreferrer" className="font-semibold text-purple-300 underline-offset-2 hover:text-purple-200 hover:underline">Cotiza por WhatsApp</a></p>
     </div>
   </div></section>

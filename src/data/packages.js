@@ -10,8 +10,6 @@ export const INCLUDED_IN_ALL = [
   'Accesorios divertidos (props)',
 ]
 
-export const CREDITS_NOTE = 'Los créditos de cortesía se usan para [TODO: explicar qué son, por ejemplo transformaciones con IA].'
-
 export const PACKAGES = [
   {
     id: 'digital',
@@ -24,7 +22,6 @@ export const PACKAGES = [
       'Galería online privada',
       'Envío instantáneo por WhatsApp, código QR o correo',
       'Accesorios divertidos (props)',
-      '10 créditos de cortesía',
     ],
     prices: [
       { hours: 1, label: '1 hora', price: 85000 },
@@ -41,7 +38,6 @@ export const PACKAGES = [
       'Todo lo incluido en Digital',
       '2 tiras impresas de 2 × 6 pulgadas por sesión',
       'Sesiones ilimitadas durante el servicio',
-      '20 créditos de cortesía',
     ],
     prices: [
       { hours: 1, label: '1 hora', price: 99000 },
@@ -57,7 +53,6 @@ export const PACKAGES = [
     features: [
       'Todo lo incluido en Print',
       'Tiras impresas ilimitadas de 2 × 6 pulgadas durante el servicio',
-      '50 créditos de cortesía',
     ],
     prices: [
       { hours: 1, label: '1 hora', price: 120000 },

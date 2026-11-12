@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { calculateQuote, CREDITS_NOTE, DEFAULT_PACKAGE_ID, formatCRC, formatDuration, INCLUDED_IN_ALL, PACKAGES } from '../src/data/packages.js'
+import { calculateQuote, DEFAULT_PACKAGE_ID, formatCRC, formatDuration, INCLUDED_IN_ALL, PACKAGES } from '../src/data/packages.js'
 
 // Precios exactos acordados con el negocio (sin redondeos ni recálculos).
 const EXPECTED_PRICES = {
@@ -30,9 +30,8 @@ test('rechaza paquetes o duraciones que no existen', () => {
   assert.throws(() => calculateQuote('digital', 3), /no válidos/)
 })
 
-test('exporta los beneficios generales y la nota de créditos', () => {
+test('exporta los beneficios generales', () => {
   assert.equal(INCLUDED_IN_ALL.length, 5)
-  assert.match(CREDITS_NOTE, /créditos de cortesía/)
 })
 
 test('formatea moneda y duraciones para el mensaje al cliente', () => {

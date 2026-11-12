@@ -4,9 +4,9 @@ import { waLink, WHATSAPP_NUMBER } from '../src/config/site.js'
 import { createContactWhatsAppUrl } from '../src/utils/whatsapp.js'
 
 test('waLink usa el número central y codifica el texto', () => {
-  assert.equal(WHATSAPP_NUMBER, '50687212900')
-  assert.equal(waLink(), 'https://wa.me/50687212900')
-  assert.equal(waLink('Hola, ¿precio?'), `https://wa.me/50687212900?text=${encodeURIComponent('Hola, ¿precio?')}`)
+  assert.equal(WHATSAPP_NUMBER, '50687812900')
+  assert.equal(waLink(), 'https://wa.me/50687812900')
+  assert.equal(waLink('Hola, ¿precio?'), `https://wa.me/50687812900?text=${encodeURIComponent('Hola, ¿precio?')}`)
 })
 
 test('prepara la consulta de contacto sin enviarla ni confirmar una reserva', () => {

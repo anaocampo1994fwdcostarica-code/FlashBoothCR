@@ -6,20 +6,24 @@ import { QUOTE_GREETING } from '../../utils/whatsapp'
 
 const HERO_ALT = 'Photobooth FlashBooth en una boda: pantalla con tiras fotográficas personalizadas, cámara profesional e impresora'
 
-// Celular: foto arriba (300 px) y texto debajo. Tablet/escritorio: texto a la izquierda sobre #07090D y foto a la derecha.
-// La foto no se edita: solo se recorta con object-fit y se funde con un degradado en su borde izquierdo.
+// Capas: foto de fondo → degradados para leer el texto → texto (z-10). Ver .hero-overlay-* en index.css.
+// La foto no se edita: solo se recorta con object-fit y se cubre con capas de degradado.
 export default function Hero() {
   return (
-    <section id="inicio" className="hero-split">
-      <div className="hero-split-media">
+    <section id="inicio" className="hero-overlay-shell">
+      <div className="hero-photo">
         <picture>
           <source srcSet={heroPhotoWebp} type="image/webp" />
           <img src={heroPhoto} alt={HERO_ALT} width="1448" height="1086" fetchpriority="high" decoding="async" />
         </picture>
-        <div className="hero-split-fade" aria-hidden="true" />
+        <div className="hero-photo-edge" aria-hidden="true" />
       </div>
+      <div className="hero-shade" aria-hidden="true" />
+      <div className="hero-bottom-fade" aria-hidden="true" />
 
-      <div className="hero-split-copy">
+      {/* pt = alto del navbar (64 px celular / 80 px desde sm) + 48 px, para que el título no quede debajo del menú. */}
+      <div className="hero-overlay-content site-container pt-28 sm:pt-32">
+      <div className="hero-overlay-text">
         <div className="hero-label-content">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 sm:gap-x-3"><span className="block w-10 shrink-0 bg-purple-400 h-[1.5px]" /><span className="text-[10px] font-bold tracking-[0.22em] text-white uppercase sm:text-[11px]">FLASHBOOTH</span><span className="text-[10px] font-medium tracking-[0.16em] text-gray-300 uppercase sm:text-[11px]">FOTOGRAFÍA · CONTENIDO · EXPERIENCIAS</span></div>
         </div>
@@ -33,6 +37,7 @@ export default function Hero() {
             <a href="#paquetes" className="flex min-h-11 items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-6 py-3.5 text-xs font-medium text-gray-200 transition hover:bg-white/10 hover:text-white sm:text-sm"><Package size={16} /><span>Ver paquetes</span></a>
           </div>
         </div>
+      </div>
       </div>
     </section>
   )

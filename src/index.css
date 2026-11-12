@@ -300,37 +300,40 @@ body.modal-open { overflow: hidden; }
   outline-offset: 3px;
 }
 
-/* Inicio: foto real sin texto encima. Celular: foto arriba (300 px) y texto debajo.
-   Tablet (≥768): texto 50 % / foto 50 %. Escritorio (≥1024): texto 45 % / foto 55 %. */
-.hero-split { background: #07090D; display: flex; flex-direction: column; }
-.hero-split-media { height: 300px; margin-top: 4rem; overflow: hidden; position: relative; }
-.hero-split-media picture, .hero-split-media img { display: block; height: 100%; width: 100%; }
-.hero-split-media img { object-fit: cover; object-position: 25% center; }
-.hero-split-fade { display: none; }
-.hero-split-copy { background: #07090D; box-sizing: border-box; display: flex; flex-direction: column; min-width: 0; padding: 2rem 20px 2.5rem; }
+/* Inicio: foto de fondo con el texto encima (capas: foto → degradados → texto).
+   Celular/tablet (<1024): foto a pantalla completa, degradado vertical y texto abajo.
+   Escritorio (≥1024): la capa de la foto empieza al 22 % y se alinea a la derecha; como la foto es 4:3,
+   en pantallas anchas object-position no puede desplazarla, y así las tiras impresas quedan en la mitad derecha. */
+.hero-overlay-shell { background: #07090D; display: flex; flex-direction: column; min-height: max(640px, 100svh); overflow: hidden; position: relative; }
+.hero-photo { inset: 0; position: absolute; z-index: 0; }
+.hero-photo picture, .hero-photo img { display: block; height: 100%; width: 100%; }
+.hero-photo img { object-fit: cover; object-position: 40% center; }
+.hero-photo-edge { display: none; }
+.hero-shade { background: linear-gradient(180deg, rgba(7, 9, 13, .55) 0%, rgba(7, 9, 13, .80) 55%, rgba(7, 9, 13, .95) 100%); inset: 0; pointer-events: none; position: absolute; z-index: 1; }
+/* Une el hero con la siguiente sección sin línea dura. */
+.hero-bottom-fade { background: linear-gradient(to bottom, rgb(7 9 13 / 0), #07090D); bottom: 0; height: 120px; left: 0; pointer-events: none; position: absolute; right: 0; z-index: 1; }
+.hero-overlay-content { display: flex; flex: 1; flex-direction: column; justify-content: flex-end; padding-bottom: 3rem; position: relative; z-index: 10; }
+.hero-overlay-text { max-width: 560px; min-width: 0; }
+.hero-overlay-text h1, .hero-overlay-text .hero-description { text-shadow: 0 2px 16px rgba(0, 0, 0, .45); }
 .hero-label-content, .hero-title-content, .hero-bottom-content { max-inline-size: 100%; min-width: 0; width: 100%; }
 .hero-label-content { margin-bottom: 1.25rem; }
 .hero-description { margin: 0 0 2rem; }
-.hero-split-copy h1 { font-size: clamp(2rem, 8.5vw, 2.375rem); }
-
-@media (min-width: 640px) {
-  .hero-split-copy { padding-inline: 32px; }
-}
+.hero-overlay-text h1 { font-size: clamp(2rem, 8.5vw, 2.375rem); }
 
 @media (min-width: 768px) {
-  .hero-split { display: grid; grid-template-columns: 50% 50%; min-height: min(860px, 100svh); }
-  .hero-split-media { grid-column: 2; grid-row: 1; height: auto; margin-top: 0; }
-  .hero-split-media img { object-position: 20% center; }
-  /* Une la foto con la columna de texto: degradado de #07090D a transparente en ~120 px. */
-  .hero-split-fade { background: linear-gradient(to right, #07090D, rgb(7 9 13 / 0)); display: block; inset: 0 auto 0 0; pointer-events: none; position: absolute; width: 120px; }
-  .hero-split-copy { grid-column: 1; grid-row: 1; justify-content: center; padding: 7rem 2.5rem 4rem 32px; }
-  .hero-split-copy h1 { font-size: clamp(2.4rem, 4.6vw, 3.4rem); }
+  .hero-overlay-text h1 { font-size: clamp(2.4rem, 4.6vw, 3.4rem); }
 }
 
 @media (min-width: 1024px) {
-  .hero-split { grid-template-columns: 45% 55%; min-height: max(640px, min(860px, 100svh)); }
-  .hero-split-copy { padding-left: max(32px, calc((100vw - 1160px) / 2)); padding-right: 3rem; }
-  .hero-split-copy h1 { font-size: clamp(3rem, 4.4vw, 4.4rem); }
+  .hero-overlay-shell { min-height: max(720px, 100svh); }
+  .hero-photo { left: 22%; }
+  .hero-photo img { object-position: 30% center; }
+  /* Funde el borde izquierdo de la capa de la foto con el fondo #07090D. */
+  .hero-photo-edge { background: linear-gradient(to right, #07090D, rgb(7 9 13 / 0)); display: block; inset: 0 auto 0 0; pointer-events: none; position: absolute; width: 120px; }
+  .hero-shade { background: linear-gradient(90deg, rgba(7, 9, 13, .92) 0%, rgba(7, 9, 13, .75) 35%, rgba(7, 9, 13, .25) 60%, rgba(7, 9, 13, 0) 80%); }
+  .hero-overlay-content { justify-content: center; padding-bottom: 5rem; }
+  .hero-overlay-text { max-width: min(560px, 48vw); }
+  .hero-overlay-text h1 { font-size: clamp(3rem, 4.4vw, 4.4rem); }
 }
 
 @media (prefers-reduced-motion: reduce) {
