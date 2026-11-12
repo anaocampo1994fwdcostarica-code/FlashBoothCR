@@ -2,6 +2,8 @@ import { useRef, useState } from 'react'
 import { Camera, Image as ImageIcon, Wand2, Smartphone, Play } from 'lucide-react'
 import BeforeAfterSlider from '../ui/BeforeAfterSlider'
 import VideoModal from '../ui/VideoModal'
+import { ParallaxOrb } from '../ui/MotionDecorations'
+import { waLink } from '../../config/site'
 
 const VIDEO_CARDS = [
   {
@@ -9,41 +11,26 @@ const VIDEO_CARDS = [
     icon: Camera,
     title: 'Fotografía Profesional',
     desc: 'Imágenes de alta calidad con iluminación y equipo profesional para que cada momento se vea increíble.',
-    video: '/videos/flashbooth.mp4',
+    video: '/videos/flashbooth-optimized.mp4',
+    poster: '/images/video-posters/flashbooth-first-frame.jpg',
   },
   {
     id: 'social',
     icon: Smartphone,
     title: 'Contenido para Redes',
     desc: 'Fotos, videos, boomerangs y diseños listos para compartir en Instagram, TikTok y más.',
-    video: '/videos/campana-flashbooth.mp4',
+    video: '/videos/campana-flashbooth-optimized.mp4',
+    poster: '/images/video-posters/campana-flashbooth-first-frame.jpg',
   },
 ]
 
-function VideoPoster({ src, title }) {
-  const videoRef = useRef(null)
-  const hasSelectedFrame = useRef(false)
-
-  const selectFirstVisibleFrame = () => {
-    const video = videoRef.current
-    if (!video || hasSelectedFrame.current || !Number.isFinite(video.duration)) return
-
-    // Un breve salto evita una pantalla negra o fundido inicial, sin reproducir el video.
-    hasSelectedFrame.current = true
-    video.currentTime = Math.min(0.5, Math.max(0.1, video.duration - 0.1))
-  }
-
+function VideoPoster({ poster, title }) {
   return (
-    <video
-      ref={videoRef}
-      src={src}
-      preload="metadata"
-      muted
-      playsInline
-      tabIndex={-1}
-      aria-label={`Portada del video: ${title}`}
-      onLoadedMetadata={selectFirstVisibleFrame}
-      onSeeked={(event) => event.currentTarget.pause()}
+    <img
+      src={poster}
+      alt={`Primer fotograma del video: ${title}`}
+      loading="lazy"
+      decoding="async"
       className="h-full w-full object-contain opacity-90 transition-transform duration-700 group-hover:scale-[1.02] group-hover:opacity-100"
     />
   )
@@ -55,28 +42,49 @@ const SLIDER_CARDS = [
     icon: ImageIcon,
     title: 'Fondos Virtuales',
     desc: 'Cambia el escenario sin salir de tu evento. Transporta a tus invitados a cualquier lugar con fondos digitales increíbles.',
-    before: '/comparisons/comparison-1.jpg',
-    after: '/comparisons/comparison-2.jpg',
+    examples: [
+      { id: 'encantado', name: 'Fondo Encantado', before: '/comparisons/6-1.webp', after: '/comparisons/5-1.webp' },
+      { id: 'celebracion', name: 'Fondo de Celebración', before: '/comparisons/8-1.webp', after: '/comparisons/7-1.webp' },
+    ],
   },
   {
     id: 'ia',
     icon: Wand2,
     title: 'Transformaciones con IA',
     desc: 'Convierte tus fotos en experiencias únicas con inteligencia artificial, adaptadas a la temática de tu evento.',
-    before: '/comparisons/comparison-3.jpg',
-    after: '/comparisons/comparison-4.jpg',
+    examples: [
+      { id: 'navidad', name: 'Fondo Navideño', before: '/comparisons/comparison-4.webp', after: '/comparisons/comparison-3.webp' },
+      { id: 'fantasia', name: 'Fondo Fantasía', before: '/comparisons/fondo-fantasia-antes.webp', after: '/comparisons/fondo-fantasia.webp', fit: 'cover' },
+    ],
   },
 ]
 
+function SliderExperience({ card }) {
+  const [activeId, setActiveId] = useState(card.examples[0].id)
+  const active = card.examples.find((example) => example.id === activeId) || card.examples[0]
+  const Icon = card.icon
+  return <div data-reveal className="comparison-card rounded-2xl overflow-hidden border border-line-soft bg-card-alt hover:border-purple-500/50 transition">
+    <div key={active.id} className="comparison-fade relative aspect-square w-full bg-black"><BeforeAfterSlider before={active.before} after={active.after} beforeWebp={active.beforeWebp} afterWebp={active.afterWebp} objectFit={active.fit} altBefore={`${active.name}, fotografía original con pantalla verde`} altAfter={`${active.name}, resultado terminado`} /></div>
+    <div className="comparison-selector background-selector border-b border-line-soft p-3" aria-label={`Ejemplos de ${card.title}`}>{card.examples.map((example) => <button key={example.id} type="button" aria-pressed={active.id === example.id} onClick={() => setActiveId(example.id)} className={`min-h-11 rounded-full border px-4 py-2 text-xs font-semibold transition ${active.id === example.id ? 'border-purple-300 bg-purple-500/20 text-white' : 'border-white/10 text-gray-300 hover:border-purple-400/50'}`}>{example.name}</button>)}</div>
+    <div className="p-5"><div className="flex items-center gap-2 text-purple-400 mb-1.5"><Icon size={16} aria-hidden="true" /></div><h3 className="text-base font-bold text-white">{card.title}</h3><p className="text-xs text-gray-400 mt-1 leading-relaxed">{card.desc}</p><a href="#paquetes" className="mt-3 inline-block text-xs font-semibold text-purple-400 hover:text-purple-300">Ver paquetes →</a></div>
+  </div>
+}
+
 export default function VideosExperiences() {
   const [activeVideo, setActiveVideo] = useState(null)
+  const videoTriggerRef = useRef(null)
+  const openVideo = (video, poster, event) => { videoTriggerRef.current = event.currentTarget; setActiveVideo({ video, poster }) }
+  const closeVideo = () => {
+    setActiveVideo(null)
+    requestAnimationFrame(() => videoTriggerRef.current?.focus())
+  }
 
   return (
     <section id="experiencias" className="py-16 sm:py-20 lg:py-24 relative border-t border-line/60 overflow-hidden bg-base">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[42rem] h-[22rem] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none" />
+      <ParallaxOrb className="absolute top-1/2 left-1/2 h-[22rem] w-[42rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/10 blur-[140px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+      <div className="site-container relative z-10">
+        <div data-reveal className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
           <span className="text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-bold block mb-2">
             NUESTRAS EXPERIENCIAS
           </span>
@@ -86,23 +94,24 @@ export default function VideosExperiences() {
               tu evento.
             </span>
           </h2>
-          <p className="text-gray-400 text-sm sm:text-base mt-4 max-w-xl mx-auto">
+          <p className="text-sm sm:text-base mt-4 max-w-xl mx-auto" style={{ color: '#fff' }}>
             Desde fondos virtuales hasta transformaciones con IA, convierte cada fotografía en una
             experiencia que tus invitados querrán compartir.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {VIDEO_CARDS.map(({ id, icon: Icon, title, desc, video }) => (
+          {VIDEO_CARDS.map(({ id, icon: Icon, title, desc, video, poster }) => (
             <div
               key={id}
-              className="rounded-2xl overflow-hidden border border-line-soft bg-card-alt hover:border-purple-500/50 transition"
+              data-reveal className="rounded-2xl overflow-hidden border border-line-soft bg-card-alt hover:border-purple-500/50 transition"
             >
               <button
-                onClick={() => setActiveVideo(video)}
+                onClick={(event) => openVideo(video, poster, event)}
+                aria-label={`Reproducir video: ${title}`}
                 className="relative aspect-square w-full bg-black p-2 flex items-center justify-center group"
               >
-                <VideoPoster src={video} title={title} />
+                <VideoPoster poster={poster} title={title} />
                 <div className="absolute inset-0 bg-gradient-to-t from-card-alt via-black/10 to-transparent" />
                 <div className="absolute w-16 h-16 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-purple-600/80 transition-all">
                   <Play size={24} fill="currentColor" className="translate-x-0.5" />
@@ -118,7 +127,7 @@ export default function VideosExperiences() {
                 </div>
               </div>
               <button
-                onClick={() => setActiveVideo(video)}
+                onClick={(event) => openVideo(video, poster, event)}
                 className="mx-5 mb-5 text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-1"
               >
                 Ver video →
@@ -126,26 +135,7 @@ export default function VideosExperiences() {
             </div>
           ))}
 
-          {SLIDER_CARDS.map(({ id, icon: Icon, title, desc, before, after }) => (
-            <div
-              key={id}
-              className="rounded-2xl overflow-hidden border border-line-soft bg-card-alt hover:border-purple-500/50 transition"
-            >
-              <div className="relative aspect-square w-full bg-black">
-                <BeforeAfterSlider before={before} after={after} />
-              </div>
-              <div className="p-5">
-                <div className="flex items-center gap-2 text-purple-400 mb-1.5">
-                  <Icon size={16} />
-                </div>
-                <h3 className="text-base font-bold text-white">{title}</h3>
-                <p className="text-xs text-gray-400 mt-1 leading-relaxed">{desc}</p>
-                <a href="#paquetes" className="mt-3 inline-block text-xs font-semibold text-purple-400 hover:text-purple-300">
-                  Ver más →
-                </a>
-              </div>
-            </div>
-          ))}
+          {SLIDER_CARDS.map((card) => <SliderExperience key={card.id} card={card} />)}
         </div>
 
         <div className="mt-12 rounded-2xl bg-panel/80 border border-line p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -153,7 +143,7 @@ export default function VideosExperiences() {
             ¿Listo para vivir la experiencia?
           </p>
           <a
-            href="https://wa.me/50687812800"
+            href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-semibold shadow-lg shadow-purple-600/40 transition-all hover:scale-105"
@@ -163,7 +153,7 @@ export default function VideosExperiences() {
         </div>
       </div>
 
-      {activeVideo && <VideoModal src={activeVideo} onClose={() => setActiveVideo(null)} />}
+      {activeVideo && <VideoModal src={activeVideo.video} poster={activeVideo.poster} onClose={closeVideo} returnFocusRef={videoTriggerRef} />}
     </section>
   )
 }

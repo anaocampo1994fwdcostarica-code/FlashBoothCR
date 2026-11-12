@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Menu, X, MessageCircle } from 'lucide-react'
+import { waLink } from '../../config/site'
+import SocialLinks from './SocialLinks'
 
 const NAV_LINKS = [
   { href: '#inicio', label: 'Inicio' },
@@ -12,10 +14,22 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [active, setActive] = useState('#inicio')
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuButtonRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    const closeOnEscape = (event) => {
+      if (event.key !== 'Escape') return
+      setMenuOpen(false)
+      requestAnimationFrame(() => menuButtonRef.current?.focus())
+    }
+    document.addEventListener('keydown', closeOnEscape)
+    return () => document.removeEventListener('keydown', closeOnEscape)
+  }, [menuOpen])
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-base/60 backdrop-blur-md transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+      <div className="site-container h-16 sm:h-20 flex items-center justify-between">
         <a href="#inicio" className="flex items-center gap-2.5 text-white tracking-wider group">
           <div className="w-9 h-9 border-2 border-white/90 rounded-lg flex items-center justify-center p-1.5">
             <svg className="w-full h-full fill-none stroke-white stroke-[2.2]" viewBox="0 0 24 24">
@@ -48,20 +62,22 @@ export default function Navbar() {
           </nav>
 
           <a
-            href="https://wa.me/50687812800"
+            href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 px-3 sm:px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-600/40 transition-all hover:scale-105"
           >
             <MessageCircle size={14} aria-hidden="true" />
-            <span className="hidden sm:inline">Cotizar</span>
+            <span className="hidden sm:inline">WhatsApp</span>
           </a>
 
           <button
+            ref={menuButtonRef}
             className="xl:hidden w-11 h-11 flex items-center justify-center text-white"
             onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Abrir menú"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
             aria-expanded={menuOpen}
+            aria-controls="menu-principal-movil"
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -69,8 +85,9 @@ export default function Navbar() {
       </div>
 
       {menuOpen && (
-        <nav className="xl:hidden flex flex-col gap-1 px-4 sm:px-6 pb-4 bg-base/95 backdrop-blur-md border-t border-white/5">
-          {NAV_LINKS.map((link) => (
+        <nav id="menu-principal-movil" className="xl:hidden bg-base/95 backdrop-blur-md border-t border-white/5">
+          <div className="site-container flex flex-col gap-1 pb-4">
+            {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
@@ -86,7 +103,9 @@ export default function Navbar() {
             >
               {link.label}
             </a>
-          ))}
+            ))}
+            <SocialLinks className="mt-3 justify-center" />
+          </div>
         </nav>
       )}
     </header>

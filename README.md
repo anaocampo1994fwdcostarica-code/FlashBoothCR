@@ -1,16 +1,50 @@
-# React + Vite
+# FlashBooth Costa Rica — sitio web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sitio de una sola página hecho con React, Vite y Tailwind CSS.
 
-Currently, two official plugins are available:
+## Correr el proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Requiere Node.js 20 o superior.
 
-## React Compiler
+```sh
+npm install
+npm run dev      # http://localhost:5173
+npm test         # pruebas de cálculo de precios y enlaces de WhatsApp
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Cambiar precios y paquetes
 
-## Expanding the ESLint configuration
+Edita `src/data/packages.js`. Cada paquete tiene `name`, `desc`, `popular` (recomendado), la lista `features` y `prices`: una entrada por duración (`hours`, `label` y `price` en colones, sin puntos). El cotizador usa el precio exacto de la combinación paquete + duración.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Los beneficios comunes a todos los paquetes están en `INCLUDED_IN_ALL`, en el mismo archivo.
+
+## Cambiar WhatsApp, redes y correo
+
+Todo está en `src/config/site.js`:
+
+- `WHATSAPP_NUMBER`: con código de país y sin espacios ni guiones (ej. `50687812900`).
+- `WHATSAPP_DISPLAY`: cómo se muestra el número (ej. `8781-2900`).
+- `WHATSAPP_INTL_DISPLAY`: el número en formato internacional (ej. `+506 8781-2900`).
+- `INSTAGRAM_URL`, `FACEBOOK_URL`, `TIKTOK_URL`.
+- `CONTACT_EMAIL`.
+
+Todos los botones de WhatsApp usan `waLink()`, así que basta con cambiar el número ahí. Si cambias el teléfono o las redes, actualiza también el bloque JSON-LD y las etiquetas Open Graph de `index.html`.
+
+## Agregar u optimizar imágenes
+
+Los originales pesados viven en `assets-originales/` (fuera de `public/` y de Git). Para agregar fotos a la galería, las tiras o las comparaciones:
+
+1. Copia el original (JPG o PNG) en `assets-originales/images/gallery`, `assets-originales/photo-strips/trimmed` o `assets-originales/comparisons`.
+2. Ejecuta `npm run optimize:images`. Genera un `.webp` (máx. 1600 px de ancho, calidad 80) en la carpeta equivalente de `public/`, con el nombre en kebab-case.
+3. Usa la ruta `.webp` en el componente (`Gallery.jsx`, `RealEvents.jsx` o `VideosExperiences.jsx`).
+
+Evita nombres de archivo con espacios o mayúsculas.
+
+## Build de producción
+
+```sh
+npm run build    # genera dist/
+npm run preview  # revisa el build localmente
+```
+
+Publica solo la carpeta `dist/`. Las cabeceras de seguridad recomendadas están en `DEPLOYMENT.md`.

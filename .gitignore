@@ -1,5 +1,10 @@
 node_modules
 dist
 .DS_Store
-*.local
 .env
+.env.*
+!.env.example
+*.local
+
+# Originales de imágenes/videos (no se publican; ver scripts/optimize-images.mjs)
+assets-originales

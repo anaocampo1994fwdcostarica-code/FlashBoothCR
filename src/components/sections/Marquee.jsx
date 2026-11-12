@@ -5,7 +5,7 @@ export default function Marquee() {
 
   return (
     <section className="relative bg-base">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="site-container">
         <div className="relative w-full overflow-hidden py-5 border-t border-b border-line/50 select-none">
           <div className="absolute left-0 top-0 bottom-0 w-24 sm:w-36 bg-gradient-to-r from-base via-base/80 to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 sm:w-36 bg-gradient-to-l from-base via-base/80 to-transparent z-10 pointer-events-none" />
