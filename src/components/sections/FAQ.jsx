@@ -26,6 +26,16 @@ const FAQS = [
     q: '¿Cómo puedo reservar?',
     a: 'Puedes reservar directamente a través de nuestro cotizador en la página o por WhatsApp. Te pedimos un abono del 50% para confirmar la fecha y el saldo se cancela el día del evento.',
   },
+  {
+    q: '¿En cuánto tiempo recibo la galería digital?',
+    // TODO: el negocio debe confirmar el plazo real de entrega de la galería y reemplazar esta respuesta.
+    a: 'Te confirmamos el plazo de entrega de la galería digital al momento de cotizar por WhatsApp.',
+  },
+  {
+    q: '¿El servicio funciona en exteriores o sin internet?',
+    // TODO: el negocio debe confirmar si opera en exteriores y sin conexión, y reemplazar esta respuesta.
+    a: 'Cuéntanos las condiciones del lugar al cotizar por WhatsApp y te confirmamos qué opciones aplican para tu evento.',
+  },
 ]
 
 export default function FAQ() {

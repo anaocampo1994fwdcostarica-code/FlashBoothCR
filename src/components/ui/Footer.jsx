@@ -1,6 +1,6 @@
-import { Instagram, MessageCircle, MapPin } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import { FloatingIcon } from './MotionDecorations'
-import { INSTAGRAM_URL } from '../../constants/social'
+import SocialLinks from './SocialLinks'
 
 export default function Footer() {
   return (
@@ -23,25 +23,8 @@ export default function Footer() {
           © {new Date().getFullYear()} FlashBooth Costa Rica. Todos los derechos reservados.
         </p>
 
-        <div className="flex items-center gap-3">
-          <a
-            href="https://wa.me/50687812800"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="WhatsApp"
-            className="motion-icon-control w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 border border-line flex items-center justify-center text-gray-300 hover:text-white transition"
-          >
-            <span className="motion-icon"><MessageCircle size={16} /></span>
-          </a>
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Visitar Instagram de FlashBooth Costa Rica"
-            className="motion-icon-control w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 border border-line flex items-center justify-center text-gray-300 hover:text-white transition"
-          >
-            <span className="motion-icon"><Instagram size={16} aria-hidden="true" /></span>
-          </a>
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          <SocialLinks />
           <span className="flex items-center gap-1.5 text-xs text-gray-500 ml-2">
             <MapPin size={14} /> San José, Costa Rica
           </span>

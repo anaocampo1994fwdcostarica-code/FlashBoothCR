@@ -1,22 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, Search, X } from 'lucide-react'
 import OptimizedImage from '../ui/OptimizedImage'
-import { INSTAGRAM_URL } from '../../constants/social'
+import { INSTAGRAM_URL, waLink } from '../../config/site'
 
 const GALLERY_IMAGES = [
-  { image: '/images/gallery/galeria-6.jpg', title: 'Experiencia western' }, { image: '/images/gallery/galeria-6-western.jpg', title: 'Experiencia western' },
-  { image: '/images/gallery/galeria-5.jpg', title: 'Momento FlashBooth' }, { image: '/images/gallery/galeria-7.jpg', title: 'Fondo virtual de fantasía' },
-  { image: '/images/gallery/galeria-9.jpg', title: 'Fondo virtual neón' }, { image: '/images/gallery/galeria-2.jpg', title: 'Celebración de quince años' },
-  { image: '/images/gallery/galeria-4.jpg', title: 'Recuerdo FlashBooth' },
-  { image: '/images/gallery/galeria-3.jpg', title: 'Recuerdo FlashBooth' }, { image: '/images/gallery/foto-grupal.jpg', title: 'Foto grupal FlashBooth' },
-  { image: '/images/gallery/galeria-10.jpg', title: 'Experiencia fantástica FlashBooth' }, { image: '/images/gallery/galeria-11.jpg', title: 'Celebración temática FlashBooth' },
-  { image: '/images/gallery/galeria-12.jpg', title: 'Recuerdo fantástico FlashBooth' },
+  { image: '/images/gallery/galeria-6.webp', title: 'Experiencia western' }, { image: '/images/gallery/galeria-6-western.webp', title: 'Experiencia western' },
+  { image: '/images/gallery/galeria-5.webp', title: 'Momento FlashBooth' }, { image: '/images/gallery/galeria-7.webp', title: 'Fondo virtual de fantasía' },
+  { image: '/images/gallery/galeria-9.webp', title: 'Fondo virtual neón' }, { image: '/images/gallery/galeria-2.webp', title: 'Celebración de quince años' },
+  { image: '/images/gallery/galeria-4.webp', title: 'Recuerdo FlashBooth' },
+  { image: '/images/gallery/galeria-3.webp', title: 'Recuerdo FlashBooth' }, { image: '/images/gallery/foto-grupal.webp', title: 'Foto grupal FlashBooth' },
+  { image: '/images/gallery/galeria-10.webp', title: 'Experiencia fantástica FlashBooth' }, { image: '/images/gallery/galeria-11.webp', title: 'Celebración temática FlashBooth' },
+  { image: '/images/gallery/galeria-12.webp', title: 'Recuerdo fantástico FlashBooth' },
 ]
 
 const PRINT_DESIGNS = [
-  { image: '/photo-strips/trimmed/1.png', title: 'Tira de quince años' }, { image: '/photo-strips/trimmed/2.png', title: 'Tira de boda' },
-  { image: '/photo-strips/trimmed/3.png', title: 'Tira familiar' }, { image: '/photo-strips/trimmed/4.png', title: 'Tira de quince años' },
-  { image: '/photo-strips/trimmed/5.png', title: 'Tira de marca' }, { image: '/photo-strips/trimmed/6.png', title: 'Tira de marca' },
+  { image: '/photo-strips/trimmed/1.webp', title: 'Tira de quince años' }, { image: '/photo-strips/trimmed/2.webp', title: 'Tira de boda' },
+  { image: '/photo-strips/trimmed/3.webp', title: 'Tira familiar' }, { image: '/photo-strips/trimmed/4.webp', title: 'Tira de quince años' },
+  { image: '/photo-strips/trimmed/5.webp', title: 'Tira de marca' }, { image: '/photo-strips/trimmed/6.webp', title: 'Tira de marca' },
 ]
 
 const wrap = (index, length) => (index + length) % length
@@ -102,6 +102,6 @@ export default function Gallery() {
     <div className="gallery-grid">{GALLERY_IMAGES.map(({ image, title }) => <button key={image} onClick={(event) => openLightbox({ image, title }, event)} className="gallery-image group" aria-label={`Ampliar ${title}`}><OptimizedImage src={image} alt={title} loading="lazy" /><span className="gallery-zoom-icon" aria-hidden="true"><Search size={18} /></span></button>)}</div>
     <div className="mt-6 text-center"><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-purple-300 transition hover:text-purple-200">Ver más en Instagram →</a></div>
     <div className="mt-10 rounded-2xl border border-line bg-panel/70 p-4 sm:mt-12 sm:p-7"><div className="mx-auto mb-4 max-w-xl text-center sm:mb-5"><span className="mb-2 block text-[10px] font-bold uppercase tracking-[.2em] text-purple-400 sm:text-xs">TIRAS PERSONALIZADAS</span><h3 className="font-serif text-3xl text-white sm:text-4xl">Recuerdos que te llevas</h3><p className="mt-2 text-sm leading-relaxed sm:text-base" style={{ color: '#fff' }}>Tiras fotográficas personalizadas para guardar lo mejor de tu evento.</p></div><StripCarousel onOpen={openLightbox} /></div>
-    <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-line bg-panel/80 p-6 sm:flex-row sm:p-8"><p className="font-serif text-lg italic text-white sm:text-xl">Tu evento también puede lucir así.</p><a href="https://wa.me/50687812800" target="_blank" rel="noopener noreferrer" className="rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-600/40 transition-all hover:scale-105">Cotizar por WhatsApp</a></div>
+    <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-line bg-panel/80 p-6 sm:flex-row sm:p-8"><p className="font-serif text-lg italic text-white sm:text-xl">Tu evento también puede lucir así.</p><a href={waLink()} target="_blank" rel="noopener noreferrer" className="rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-600/40 transition-all hover:scale-105">Cotizar por WhatsApp</a></div>
   </div>{lightbox && <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 p-4 backdrop-blur-xs sm:p-10" onMouseDown={closeLightbox} role="presentation"><div ref={dialogRef} role="dialog" aria-modal="true" aria-label={lightbox.title} className="relative flex max-h-full max-w-full items-center justify-center" onMouseDown={(event) => event.stopPropagation()}><button onClick={closeLightbox} aria-label="Cerrar imagen" className="absolute right-2 top-2 z-20 flex h-11 w-11 items-center justify-center rounded-full border-2 border-white/70 bg-[#0b0912]/95 text-white shadow-lg shadow-black/70 transition hover:bg-purple-700 focus:outline-hidden focus:ring-4 focus:ring-purple-300/80 sm:right-4 sm:top-4"><X size={24} strokeWidth={2.5} /></button><OptimizedImage src={lightbox.image} alt={lightbox.title} pictureClassName="contents" className="max-h-[calc(100vh-2rem)] max-w-full rounded-2xl object-contain shadow-2xl" /></div></div>}</section>
 }

@@ -15,11 +15,12 @@ import Calculator from '../components/sections/Calculator'
 import ContactForm from '../components/sections/ContactForm'
 import FAQ from '../components/sections/FAQ'
 import { useScrollReveal } from '../hooks/useMotion'
+import { DEFAULT_PACKAGE_ID } from '../data/packages'
 import MobileBottomBar from '../components/ui/MobileBottomBar'
 
 export default function Home() {
   useScrollReveal()
-  const [selectedPackageId, setSelectedPackageId] = useState('experience')
+  const [selectedPackageId, setSelectedPackageId] = useState(DEFAULT_PACKAGE_ID)
   const scrollToCalculator = () => requestAnimationFrame(() => document.getElementById('cotizador')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }))
   const customizePackage = (packageId) => {
     setSelectedPackageId(packageId)

@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { X, Check } from 'lucide-react'
+import { waLink } from '../../config/site'
 
 export default function ServiceModal({ service, onClose }) {
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function ServiceModal({ service, onClose }) {
       >
         {service.image && (
           <div className="h-56 sm:h-64 w-full overflow-hidden rounded-t-3xl">
-            <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+            <img src={service.image} alt={service.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
           </div>
         )}
 
@@ -57,7 +58,7 @@ export default function ServiceModal({ service, onClose }) {
           )}
 
           <a
-            href="https://wa.me/50687812800"
+            href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex w-full items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-purple-600/40 transition-all hover:scale-[1.02]"

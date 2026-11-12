@@ -2,10 +2,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Camera, Printer, Search, Smartphone, Sparkles, X } from 'lucide-react'
 
 const FEATURES = [
-  { icon: Camera, title: 'Fotografía profesional', desc: 'Imágenes de alta calidad con iluminación profesional.', image: '/images/foto profesional.jpeg' },
-  { icon: Smartphone, title: 'Contenido digital', desc: 'Fotos, videos, Stories y diseños listos para compartir en redes.', image: '/images/Contenido digital.jpg' },
+  { icon: Camera, title: 'Fotografía profesional', desc: 'Imágenes de alta calidad con iluminación profesional.', image: '/images/foto-profesional.jpeg' },
+  { icon: Smartphone, title: 'Contenido digital', desc: 'Fotos, videos, Stories y diseños listos para compartir en redes.', image: '/images/contenido-digital.jpg' },
   { icon: Sparkles, title: 'Experiencias con IA', desc: 'Fondos virtuales y transformaciones creativas para fotos únicas.', image: '/images/fondos-ia.jpg' },
-  { icon: Printer, title: 'Recuerdos impresos', desc: 'Tiras fotográficas 2×6” impresas al instante para llevarse el momento.', image: '/images/recuerdos-impresos.jpg' },
+  { icon: Printer, title: 'Recuerdos impresos', desc: 'Tiras fotográficas 2×6” impresas al instante, incluidas en los paquetes Print e Ilimitado.', image: '/images/recuerdos-impresos.jpg' },
 ]
 
 function ServiceModal({ feature, onClose, returnFocusRef }) {
@@ -45,7 +45,7 @@ function ServiceModal({ feature, onClose, returnFocusRef }) {
           <h3 id="service-modal-title" className="text-base font-semibold text-white sm:text-lg">{feature.title}</h3>
         </div>
         <div className="flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-xl bg-black/40">
-          <img src={feature.image} alt={feature.title} className="max-h-[calc(100vh-10rem)] max-w-full object-contain" />
+          <img src={feature.image} alt={feature.title} loading="lazy" decoding="async" className="max-h-[calc(100vh-10rem)] max-w-full object-contain" />
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@ export default function Services() {
       <div className="services-content site-container">
         <div data-reveal className="overflow-hidden rounded-3xl border border-line-soft bg-panel shadow-2xl shadow-black/30 lg:grid lg:grid-cols-[1.03fr_.97fr]">
           <div className="relative h-[420px] overflow-hidden sm:h-[520px] lg:h-auto lg:min-h-[760px]">
-            <img src="/images/foto-principal.jpg" alt="Experiencia FlashBooth" loading="lazy" className="h-full w-full object-cover" />
+            <img src="/images/foto-principal.jpg" alt="Experiencia FlashBooth" loading="lazy" decoding="async" className="h-full w-full object-cover" />
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07060c]/90 via-[#07060c]/10 to-transparent" />
             <div className="absolute bottom-7 left-7 sm:bottom-10 sm:left-10"><p className="font-serif text-2xl italic leading-none text-white sm:text-3xl">Momentos<br />que se comparten ♡</p><p className="mt-4 text-[9px] font-semibold tracking-[.28em] text-white/75">FOTOS · EXPERIENCIAS · RECUERDOS</p></div>
           </div>
@@ -99,7 +99,7 @@ export default function Services() {
                 return <article key={feature.title} data-reveal className="flex min-h-[276px] flex-col rounded-2xl border border-line-soft bg-card/90 p-4 transition-colors hover:border-purple-500/60 sm:min-h-[300px] sm:p-5">
                   <div className="flex min-w-0 items-center gap-3"><span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-brand to-brand-indigo text-white shadow-lg shadow-purple-950/50"><Icon size={18} aria-hidden="true" /></span><h3 className="min-w-0 text-sm font-bold text-white">{feature.title}</h3></div>
                   <p className="mt-3 text-xs leading-relaxed text-gray-300">{feature.desc}</p>
-                  <button type="button" onClick={(event) => openFeature(feature, event)} className="mt-4 flex h-28 w-full items-center justify-center overflow-hidden rounded-xl bg-black/40 focus:outline-hidden focus:ring-2 focus:ring-purple-300 sm:h-32" aria-label={`Ampliar ${feature.title}`}><img src={feature.image} alt="" loading="lazy" className="h-full w-full object-contain" /></button>
+                  <button type="button" onClick={(event) => openFeature(feature, event)} className="mt-4 flex h-28 w-full items-center justify-center overflow-hidden rounded-xl bg-black/40 focus:outline-hidden focus:ring-2 focus:ring-purple-300 sm:h-32" aria-label={`Ampliar ${feature.title}`}><img src={feature.image} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain" /></button>
                   <button type="button" onClick={(event) => openFeature(feature, event)} className="mt-auto inline-flex min-h-11 w-fit items-center gap-2 pt-4 text-xs font-semibold text-purple-100 transition hover:text-white focus:outline-hidden focus:ring-2 focus:ring-purple-300"><Search size={15} aria-hidden="true" />Ver más</button>
                 </article>
               })}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { X } from 'lucide-react'
 
-export default function VideoModal({ src, onClose, returnFocusRef }) {
+export default function VideoModal({ src, poster, onClose, returnFocusRef }) {
   const dialogRef = useRef(null)
   const closeRef = useRef(null)
   const restoreFrameRef = useRef(0)
@@ -49,7 +49,7 @@ export default function VideoModal({ src, onClose, returnFocusRef }) {
         >
           <X size={22} aria-hidden="true" />
         </button>
-        <video src={src} controls autoPlay playsInline preload="metadata" className="max-h-full max-w-full rounded-2xl bg-black object-contain shadow-2xl" />
+        <video src={src} poster={poster} controls autoPlay playsInline preload="none" className="max-h-full max-w-full rounded-2xl bg-black object-contain shadow-2xl" />
       </div>
     </div>
   )

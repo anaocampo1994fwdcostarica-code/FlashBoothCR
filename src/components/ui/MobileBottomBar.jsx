@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Calculator, Layers3 } from 'lucide-react'
+import { Layers3, MessageCircle } from 'lucide-react'
 
+// Barra fija solo en celular (ver .mobile-bottom-bar en index.css). Mientras está visible,
+// el botón flotante de WhatsApp se oculta para no encimarse.
 export default function MobileBottomBar() {
   const [heroActionsVisible, setHeroActionsVisible] = useState(true)
 
@@ -17,6 +19,6 @@ export default function MobileBottomBar() {
 
   return <nav className={`mobile-bottom-bar ${heroActionsVisible ? 'is-hero-actions-visible' : ''}`} aria-label="Acciones rápidas">
     <a href="#paquetes"><Layers3 size={17} aria-hidden="true" />Ver paquetes</a>
-    <a href="#cotizador" className="is-primary"><Calculator size={17} aria-hidden="true" />Cotizar</a>
+    <a href="#cotizador" className="is-primary"><MessageCircle size={17} aria-hidden="true" />Cotizar por WhatsApp</a>
   </nav>
 }

@@ -1,7 +1,10 @@
+import { waLink } from '../../config/site'
+import { QUOTE_GREETING } from '../../utils/whatsapp'
+
 export default function WhatsAppFloat() {
   return (
     <a
-      href="https://wa.me/50687812800?text=Hola%2C%20quisiera%20cotizar%20un%20FlashBooth%20para%20mi%20evento"
+      href={waLink(QUOTE_GREETING)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Resolver una duda rápida por WhatsApp"

@@ -3,6 +3,7 @@ import { Camera, Image as ImageIcon, Wand2, Smartphone, Play } from 'lucide-reac
 import BeforeAfterSlider from '../ui/BeforeAfterSlider'
 import VideoModal from '../ui/VideoModal'
 import { ParallaxOrb } from '../ui/MotionDecorations'
+import { waLink } from '../../config/site'
 
 const VIDEO_CARDS = [
   {
@@ -28,6 +29,7 @@ function VideoPoster({ poster, title }) {
     <img
       src={poster}
       alt={`Primer fotograma del video: ${title}`}
+      loading="lazy"
       decoding="async"
       className="h-full w-full object-contain opacity-90 transition-transform duration-700 group-hover:scale-[1.02] group-hover:opacity-100"
     />
@@ -41,8 +43,8 @@ const SLIDER_CARDS = [
     title: 'Fondos Virtuales',
     desc: 'Cambia el escenario sin salir de tu evento. Transporta a tus invitados a cualquier lugar con fondos digitales increíbles.',
     examples: [
-      { id: 'encantado', name: 'Fondo Encantado', before: '/comparisons/6 (1).jpg', after: '/comparisons/5 (1).jpg' },
-      { id: 'celebracion', name: 'Fondo de Celebración', before: '/comparisons/8 (1).jpg', after: '/comparisons/7 (1).jpg' },
+      { id: 'encantado', name: 'Fondo Encantado', before: '/comparisons/6-1.webp', after: '/comparisons/5-1.webp' },
+      { id: 'celebracion', name: 'Fondo de Celebración', before: '/comparisons/8-1.webp', after: '/comparisons/7-1.webp' },
     ],
   },
   {
@@ -51,8 +53,8 @@ const SLIDER_CARDS = [
     title: 'Transformaciones con IA',
     desc: 'Convierte tus fotos en experiencias únicas con inteligencia artificial, adaptadas a la temática de tu evento.',
     examples: [
-      { id: 'navidad', name: 'Fondo Navideño', before: '/comparisons/comparison-4.jpg', after: '/comparisons/comparison-3.jpg' },
-      { id: 'fantasia', name: 'Fondo Fantasía', before: '/comparisons/fondo-fantasia-antes.png', beforeWebp: '/comparisons/fondo-fantasia-antes.webp', after: '/comparisons/fondo-fantasia.jpg', afterWebp: '/comparisons/fondo-fantasia.webp', fit: 'cover' },
+      { id: 'navidad', name: 'Fondo Navideño', before: '/comparisons/comparison-4.webp', after: '/comparisons/comparison-3.webp' },
+      { id: 'fantasia', name: 'Fondo Fantasía', before: '/comparisons/fondo-fantasia-antes.webp', after: '/comparisons/fondo-fantasia.webp', fit: 'cover' },
     ],
   },
 ]
@@ -71,7 +73,7 @@ function SliderExperience({ card }) {
 export default function VideosExperiences() {
   const [activeVideo, setActiveVideo] = useState(null)
   const videoTriggerRef = useRef(null)
-  const openVideo = (video, event) => { videoTriggerRef.current = event.currentTarget; setActiveVideo(video) }
+  const openVideo = (video, poster, event) => { videoTriggerRef.current = event.currentTarget; setActiveVideo({ video, poster }) }
   const closeVideo = () => {
     setActiveVideo(null)
     requestAnimationFrame(() => videoTriggerRef.current?.focus())
@@ -105,7 +107,7 @@ export default function VideosExperiences() {
               data-reveal className="rounded-2xl overflow-hidden border border-line-soft bg-card-alt hover:border-purple-500/50 transition"
             >
               <button
-                onClick={(event) => openVideo(video, event)}
+                onClick={(event) => openVideo(video, poster, event)}
                 aria-label={`Reproducir video: ${title}`}
                 className="relative aspect-square w-full bg-black p-2 flex items-center justify-center group"
               >
@@ -125,7 +127,7 @@ export default function VideosExperiences() {
                 </div>
               </div>
               <button
-                onClick={(event) => openVideo(video, event)}
+                onClick={(event) => openVideo(video, poster, event)}
                 className="mx-5 mb-5 text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-1"
               >
                 Ver video →
@@ -141,7 +143,7 @@ export default function VideosExperiences() {
             ¿Listo para vivir la experiencia?
           </p>
           <a
-            href="https://wa.me/50687812800"
+            href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-semibold shadow-lg shadow-purple-600/40 transition-all hover:scale-105"
@@ -151,7 +153,7 @@ export default function VideosExperiences() {
         </div>
       </div>
 
-      {activeVideo && <VideoModal src={activeVideo} onClose={closeVideo} returnFocusRef={videoTriggerRef} />}
+      {activeVideo && <VideoModal src={activeVideo.video} poster={activeVideo.poster} onClose={closeVideo} returnFocusRef={videoTriggerRef} />}
     </section>
   )
 }

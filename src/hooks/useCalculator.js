@@ -1,33 +1,32 @@
 import { useEffect, useState } from 'react'
-import { calculateQuote, EXTRA_HOURS, PACKAGES } from '../data/packages'
+import { calculateQuote, DEFAULT_PACKAGE_ID, PACKAGES } from '../data/packages'
 
+const findPackage = (id) => PACKAGES.find((item) => item.id === id)
+
+// Paquete + duración (1 h, 1,5 h o 2 h). El total es el precio exacto de esa combinación.
 export function useCalculator(packageId) {
-  const [selectedLevel, setSelectedLevel] = useState(
-    PACKAGES.find((item) => item.id === packageId) || PACKAGES.find((item) => item.id === 'experience') || PACKAGES[0]
-  )
-  const [extraIndex, setExtraIndex] = useState(0)
-  const extra = EXTRA_HOURS[extraIndex]
+  const [selectedLevel, setSelectedLevel] = useState(findPackage(packageId) || findPackage(DEFAULT_PACKAGE_ID) || PACKAGES[0])
+  const [hours, setHours] = useState(selectedLevel.prices[0].hours)
 
+  // Cuando se elige un paquete desde la sección de precios, el cotizador lo selecciona.
   useEffect(() => {
-    const selected = PACKAGES.find((item) => item.id === packageId)
+    const selected = findPackage(packageId)
     if (!selected) return undefined
-    const frame = requestAnimationFrame(() => { setSelectedLevel(selected); setExtraIndex(0) })
+    const frame = requestAnimationFrame(() => setSelectedLevel(selected))
     return () => cancelAnimationFrame(frame)
   }, [packageId])
 
-  const quote = calculateQuote(selectedLevel.id, extra.id)
+  // Si el paquete no ofrece la duración elegida, vuelve a la primera disponible.
+  const validHours = selectedLevel.prices.some((item) => item.hours === hours) ? hours : selectedLevel.prices[0].hours
+  const quote = calculateQuote(selectedLevel.id, validHours)
 
   return {
-    extraHours: EXTRA_HOURS,
-    selectedLevel,
-    setSelectedLevel,
-    extraIndex,
-    setExtraIndex,
-    extra: quote.extra,
     activeLevel: quote.package,
-    basePrice: quote.package.price,
-    baseDurationLabel: quote.package.durationLabel,
+    setSelectedLevel,
+    durationOptions: quote.package.prices,
+    hours: validHours,
+    setHours,
+    durationLabel: quote.option.label,
     total: quote.total,
-    totalHours: quote.totalHours,
   }
 }

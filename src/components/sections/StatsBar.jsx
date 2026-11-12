@@ -1,5 +1,5 @@
 const STATS = [
-  { value: '24h', title: 'Respuesta Rápida', desc: 'Atención inmediata' },
+  { value: '24h', title: 'Atención personalizada', desc: 'Por WhatsApp' },
   { value: '100%', title: 'Asistencia Total', desc: 'Staff profesional presente' },
   { value: '100%', title: 'Personalización', desc: 'Marcos e interfaz a tu gusto' },
   { value: '300dpi', title: 'Calidad Premium', desc: 'Sublimación térmica real' },

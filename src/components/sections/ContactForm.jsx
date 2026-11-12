@@ -2,50 +2,35 @@ import { useState } from 'react'
 import { Send } from 'lucide-react'
 import { createContactWhatsAppUrl } from '../../utils/whatsapp'
 
+const ERROR_MESSAGES = { name: 'Escribe tu nombre.', message: 'Cuéntanos sobre tu evento.' }
+
 export default function ContactForm() {
   const [submission, setSubmission] = useState({ state: 'idle', message: '' })
-  const configuredEndpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT?.trim()
-  const endpoint = (() => {
-    if (!configuredEndpoint) return null
-    try {
-      const url = new URL(configuredEndpoint)
-      return url.protocol === 'https:' ? url.href : null
-    } catch {
-      return null
-    }
-  })()
+  const [errors, setErrors] = useState({})
 
-  const handleSubmit = async (event) => {
+  const clearError = (field) => setErrors((current) => (current[field] ? { ...current, [field]: '' } : current))
+
+  const handleSubmit = (event) => {
     event.preventDefault()
     const form = event.currentTarget
-    if (submission.state === 'loading') return
-    if (!endpoint) {
-      const data = new FormData(form)
-      const whatsappUrl = createContactWhatsAppUrl({
-        name: String(data.get('name') || ''),
-        email: String(data.get('email') || ''),
-        phone: String(data.get('phone') || ''),
-        eventType: String(data.get('event_type') || ''),
-        message: String(data.get('message') || ''),
-      })
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer')
-      setSubmission({ state: 'idle', message: 'La consulta quedó preparada en WhatsApp. Esto no confirma una reserva.' })
+    const data = new FormData(form)
+    const values = {
+      name: String(data.get('name') || ''),
+      email: String(data.get('email') || ''),
+      phone: String(data.get('phone') || ''),
+      eventType: String(data.get('event_type') || ''),
+      message: String(data.get('message') || ''),
+    }
+    const nextErrors = Object.fromEntries(['name', 'message'].filter((field) => !values[field].trim()).map((field) => [field, ERROR_MESSAGES[field]]))
+    setErrors(nextErrors)
+    const firstInvalid = ['name', 'message'].find((field) => nextErrors[field])
+    if (firstInvalid) {
+      form.elements.namedItem(firstInvalid)?.focus()
+      setSubmission({ state: 'idle', message: '' })
       return
     }
-
-    setSubmission({ state: 'loading', message: 'Enviando mensaje…' })
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: { Accept: 'application/json' },
-      })
-      if (!response.ok) throw new Error(`HTTP ${response.status}`)
-      form.reset()
-      setSubmission({ state: 'success', message: 'Mensaje enviado. Te contactaremos lo antes posible.' })
-    } catch {
-      setSubmission({ state: 'error', message: 'No pudimos enviar el mensaje. Inténtalo de nuevo o contáctanos por WhatsApp.' })
-    }
+    window.open(createContactWhatsAppUrl(values), '_blank', 'noopener,noreferrer')
+    setSubmission({ state: 'success', message: 'La consulta quedó preparada en WhatsApp. Esto no confirma una reserva.' })
   }
   return (
     <section id="contacto" className="py-16 sm:py-20 lg:py-24 relative border-t border-line/60 bg-base">
@@ -64,6 +49,7 @@ export default function ContactForm() {
 
         <form
           onSubmit={handleSubmit}
+          noValidate
           className="mx-auto grid w-full max-w-[760px] grid-cols-1 gap-4 rounded-2xl border border-line bg-panel/80 p-5 shadow-2xl shadow-purple-950/20 sm:grid-cols-2 sm:gap-5 sm:p-7"
         >
           <div className="flex flex-col gap-2">
@@ -74,17 +60,20 @@ export default function ContactForm() {
               name="name"
               required
               maxLength="100"
+              onChange={() => clearError('name')}
+              aria-invalid={Boolean(errors.name)}
+              aria-describedby={errors.name ? 'contact-name-error' : undefined}
               className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-hidden text-sm text-white placeholder-gray-500 transition"
               placeholder="Tu nombre"
             />
+            {errors.name && <span id="contact-name-error" role="alert" className="text-xs text-red-300">{errors.name}</span>}
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="contact-email" className="text-xs font-semibold text-gray-300 uppercase tracking-wider">Email</label>
+            <label htmlFor="contact-email" className="text-xs font-semibold text-gray-300 uppercase tracking-wider">Email (opcional)</label>
             <input
               id="contact-email"
               type="email"
               name="email"
-              required
               maxLength="254"
               className="w-full min-h-11 px-4 py-3 rounded-xl bg-base border border-line focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-hidden text-sm text-white placeholder-gray-500 transition"
               placeholder="tu@email.com"
@@ -123,22 +112,24 @@ export default function ContactForm() {
               rows="4"
               required
               maxLength="2000"
+              onChange={() => clearError('message')}
+              aria-invalid={Boolean(errors.message)}
+              aria-describedby={errors.message ? 'contact-message-error' : undefined}
               className="min-h-[120px] w-full resize-y rounded-xl border border-line bg-base px-4 py-3 text-sm text-white placeholder-gray-500 outline-hidden transition focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
               placeholder="Cuéntanos sobre tu evento, fecha y número de invitados..."
             ></textarea>
+            {errors.message && <span id="contact-message-error" role="alert" className="text-xs text-red-300">{errors.message}</span>}
           </div>
           <div className="sm:col-span-2 flex justify-stretch sm:justify-end">
             <button
               type="submit"
-              disabled={submission.state === 'loading'}
               className="w-full sm:w-auto justify-center px-6 py-3.5 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-sm shadow-lg shadow-purple-600/40 transition-all hover:scale-105 flex items-center gap-2"
             >
               <Send size={16} />
-              {submission.state === 'loading' ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Preparar consulta en WhatsApp'}
+              Preparar consulta en WhatsApp
             </button>
           </div>
-          {submission.message && <p role={submission.state === 'error' ? 'alert' : 'status'} aria-live="polite" className={`sm:col-span-2 rounded-xl border p-3 text-sm ${submission.state === 'success' ? 'border-green-300/30 bg-green-300/10 text-green-100' : submission.state === 'error' ? 'border-amber-300/30 bg-amber-300/10 text-amber-100' : 'border-purple-300/30 bg-purple-300/10 text-purple-100'}`}>{submission.message}</p>}
-          {!endpoint && <p className="sm:col-span-2 text-xs leading-relaxed text-gray-400">El envío directo aún no está habilitado. Falta configurar <code className="text-purple-200">VITE_CONTACT_FORM_ENDPOINT</code> con un endpoint HTTPS que tenga protección contra abuso.</p>}
+          {submission.message && <p role="status" aria-live="polite" className="sm:col-span-2 rounded-xl border border-green-300/30 bg-green-300/10 p-3 text-sm text-green-100">{submission.message}</p>}
         </form>
       </div>
     </section>

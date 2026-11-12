@@ -8,8 +8,8 @@ No hay un proveedor de hosting configurado en el repositorio. Por ello estas cab
 
 - Aplicación, imágenes, videos y JavaScript: mismo origen (`'self'`).
 - Tipografías: `https://fonts.googleapis.com` y `https://fonts.gstatic.com`.
-- Navegaciones iniciadas por el usuario: WhatsApp (`https://wa.me`) e Instagram (`https://www.instagram.com/flashbooth.cr/`). No requieren `connect-src`.
-- Formulario: no hay endpoint configurado. Mientras `VITE_CONTACT_FORM_ENDPOINT` esté vacío, `connect-src` se mantiene en `'self'` y el formulario dirige la consulta a WhatsApp.
+- Navegaciones iniciadas por el usuario: WhatsApp (`https://wa.me`), Instagram, Facebook y TikTok (URLs en `src/config/site.js`). No requieren `connect-src`.
+- Formulario: no envía datos a ningún servidor; arma el mensaje y abre WhatsApp. `connect-src` se mantiene en `'self'`.
 - La interfaz utiliza atributos de estilo dinámicos, por lo que la CSP debe conservar `'unsafe-inline'` únicamente en `style-src`. No se permiten scripts inline ni `unsafe-eval`.
 
 ## Cabeceras para producción HTTPS
@@ -36,7 +36,7 @@ No uses `includeSubDomains` ni `preload` hasta confirmar que todos los subdomini
 
 ## Endpoint de contacto futuro
 
-Si se habilita `VITE_CONTACT_FORM_ENDPOINT`, debe ser una URL HTTPS de un proveedor definido, con protección contra abuso. Añade solamente su origen exacto a `connect-src`; por ejemplo, para `https://forms.example.com/submit`:
+Hoy el formulario solo abre WhatsApp. Si en el futuro se habilita un endpoint, debe ser una URL HTTPS de un proveedor definido, con protección contra abuso. Añade solamente su origen exacto a `connect-src`; por ejemplo, para `https://forms.example.com/submit`:
 
 ```text
 connect-src 'self' https://forms.example.com

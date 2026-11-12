@@ -5,3 +5,6 @@ dist
 .env.*
 !.env.example
 *.local
+
+# Originales de imágenes/videos (no se publican; ver scripts/optimize-images.mjs)
+assets-originales

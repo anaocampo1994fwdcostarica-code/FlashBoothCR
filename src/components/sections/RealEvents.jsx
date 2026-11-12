@@ -2,9 +2,9 @@ import { ClipboardCheck, PartyPopper, SlidersHorizontal } from 'lucide-react'
 import OptimizedImage from '../ui/OptimizedImage'
 
 const EVENTS = [
-  { image: '/images/gallery/galeria-2.jpg', label: 'Celebración de quinceaños', text: 'Una composición temática creada durante un evento real.' },
-  { image: '/images/gallery/experiencia-tematica.jpg', label: 'Experiencia temática', text: 'Fotografía grupal con una ambientación preparada para compartir.' },
-  { image: '/images/gallery/foto-grupal.jpg', label: 'Momento grupal', text: 'Un recuerdo de invitados reunidos frente a FlashBooth.' },
+  { image: '/images/gallery/galeria-2.webp', label: 'Celebración de quinceaños', text: 'Una composición temática creada durante un evento real.' },
+  { image: '/images/gallery/experiencia-tematica.webp', label: 'Experiencia temática', text: 'Fotografía grupal con una ambientación preparada para compartir.' },
+  { image: '/images/gallery/foto-grupal.webp', label: 'Momento grupal', text: 'Un recuerdo de invitados reunidos frente a FlashBooth.' },
 ]
 
 const STEPS = [

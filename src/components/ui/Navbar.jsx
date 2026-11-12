@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Menu, X, MessageCircle } from 'lucide-react'
+import { waLink } from '../../config/site'
+import SocialLinks from './SocialLinks'
 
 const NAV_LINKS = [
   { href: '#inicio', label: 'Inicio' },
@@ -60,7 +62,7 @@ export default function Navbar() {
           </nav>
 
           <a
-            href="https://wa.me/50687812800"
+            href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 px-3 sm:px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-600/40 transition-all hover:scale-105"
@@ -102,6 +104,7 @@ export default function Navbar() {
               {link.label}
             </a>
             ))}
+            <SocialLinks className="mt-3 justify-center" />
           </div>
         </nav>
       )}
